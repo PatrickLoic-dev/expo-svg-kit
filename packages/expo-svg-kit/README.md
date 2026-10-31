@@ -12,6 +12,54 @@ npm install expo-svg-kit
 
 `react-native-svg` is a peer dependency.
 
+## Implementation guide: the new v0.2 tags
+
+Two new ways to render an SVG were added in v0.2, on top of the existing `<Icon/>` +
+registry workflow. Pick whichever fits the asset:
+
+### `<Logo/>`-style direct `.svg` imports (bundled files, no registry)
+
+1. Point Metro at the kit's transformer, in `metro.config.js`:
+   ```js
+   const { getDefaultConfig } = require('expo/metro-config');
+   const config = getDefaultConfig(__dirname);
+
+   config.transformer.babelTransformerPath = require.resolve('expo-svg-kit/metro-transformer');
+   config.resolver.assetExts = config.resolver.assetExts.filter((ext) => ext !== 'svg');
+   config.resolver.sourceExts = [...config.resolver.sourceExts, 'svg'];
+
+   module.exports = config;
+   ```
+2. Declare the `.svg` module type once, in a `global.d.ts` at the project root:
+   ```ts
+   /// <reference types="expo-svg-kit/svg-module" />
+   ```
+3. Import and render the file directly, as a component:
+   ```tsx
+   import Logo from './assets/logo.svg';
+
+   <Logo size={32} color="#4F46E5" />;
+   ```
+   No `<SvgKitProvider/>` or registry needed — `color`/`colors` only take literal values
+   here, not theme keys (see [Direct `.svg` imports](#direct-svg-imports-metro-transformer)
+   below for details and limitations).
+
+### `<RemoteSvg/>` (SVGs fetched from a URL)
+
+1. Install the peer dependency it needs to cache files on-device:
+   ```bash
+   npx expo install expo-file-system
+   ```
+2. Render it with a `uri`:
+   ```tsx
+   import { RemoteSvg } from 'expo-svg-kit';
+
+   <RemoteSvg uri="https://example.com/logo.svg" size={40} color="primary" fallback={<Spinner />} />;
+   ```
+3. Optional: wrap it in `<SvgKitProvider/>` to resolve `color`/`colors` against a theme
+   instead of literal values — see [`<RemoteSvg/>`](#remotesvg-svgs-from-a-url) below for
+   the full props table.
+
 ## CLI: `svg-kit generate`
 
 Compiles a folder of SVG files into a typed registry file.
