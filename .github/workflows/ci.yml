@@ -19,3 +19,4 @@ jobs:
       - run: npm run typecheck
       - run: npm run test --workspace=expo-svg-kit -- --ci
       - run: npm run build --workspace=expo-svg-kit
+      - run: npm run verify-pack --workspace=expo-svg-kit

@@ -20,6 +20,7 @@ export default tseslint.config(
       '**/metro.config.js',
       '**/jest.config.js',
       '**/bin/*.js',
+      '**/scripts/*.js',
     ],
     languageOptions: {
       globals: globals.node,

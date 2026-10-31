@@ -35,7 +35,8 @@
     "prepare": "bob build",
     "typecheck": "tsc --noEmit",
     "test": "jest",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "verify-pack": "node scripts/verify-pack.js"
   },
   "peerDependencies": {
     "react": "*",

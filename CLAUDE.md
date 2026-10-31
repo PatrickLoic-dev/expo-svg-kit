@@ -61,5 +61,12 @@ Dans `example/` : `npx expo start` (iOS/Android, nécessite Expo Go ou un simula
 
 ## État v0.1 (mis à jour en fin de session)
 
-Voir le récapitulatif de fin de session dans la conversation pour le détail de ce qui est fait
-et ce qui reste.
+Fait : CLI `svg-kit generate` (SVGO, sanitization, arbre JSON, pathLength, registre typé,
+`--watch`, `svg-kit.config.js`) ; runtime `<SvgKitProvider/>` + `<Icon/>` (thème, override de
+calque par id, warning dev sur nom inconnu) ; app `example/` (15 SVG de test, écrans Gallery et
+Props demo, thème clair/sombre) vérifiée dans le navigateur et avec `expo export --platform web` ;
+13 tests (CLI + composants, snapshot, `tsc --noEmit` sur le registre généré) ; ESLint, Prettier,
+CI GitHub Actions, script `verify-pack`.
+
+Reste pour la suite : tester sur iOS/Android réels (seul le web a été vérifié dans cette
+session) ; publication npm effective ; v0.2 (transformer Metro, `<RemoteSvg/>`).
