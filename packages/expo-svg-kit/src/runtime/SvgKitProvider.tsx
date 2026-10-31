@@ -31,3 +31,8 @@ export function useSvgKitContext(): SvgKitContextValue {
   }
   return context;
 }
+
+/** Same as useSvgKitContext, but returns null instead of throwing outside a provider. */
+export function useOptionalSvgKitContext(): SvgKitContextValue | null {
+  return useContext(SvgKitContext);
+}
