@@ -1,0 +1,22 @@
+{
+  "name": "expo-svg-kit-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "example"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace=expo-svg-kit",
+    "test": "npm run test --workspace=expo-svg-kit",
+    "typecheck": "npm run typecheck --workspace=expo-svg-kit",
+    "lint": "eslint .",
+    "generate": "npm run generate --workspace=example",
+    "example:web": "npm run web --workspace=example"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.14.0",
+    "prettier": "^3.6.2",
+    "typescript-eslint": "^8.72.1"
+  }
+}

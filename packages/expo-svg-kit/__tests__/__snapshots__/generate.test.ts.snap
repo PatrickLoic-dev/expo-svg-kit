@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`buildRegistry compiles every fixture SVG into the registry, matching the snapshot 1`] = `
+{
+  "brand-logo": {
+    "multicolor": true,
+    "tree": [
+      {
+        "children": [],
+        "pathLength": undefined,
+        "props": {
+          "cx": "16",
+          "cy": "16",
+          "fill": "#123456",
+          "id": "bg",
+          "r": "16",
+        },
+        "tag": "circle",
+      },
+      {
+        "children": [],
+        "pathLength": 56,
+        "props": {
+          "d": "M4 14h24v4H4z",
+          "fill": "#abcdef",
+          "id": "stripe",
+        },
+        "tag": "path",
+      },
+    ],
+    "viewBox": "0 0 32 32",
+  },
+  "malicious": {
+    "multicolor": false,
+    "tree": [
+      {
+        "children": [],
+        "pathLength": 96,
+        "props": {
+          "d": "M0 0h24v24H0z",
+        },
+        "tag": "path",
+      },
+      {
+        "children": [],
+        "pathLength": undefined,
+        "props": {},
+        "tag": "image",
+      },
+    ],
+    "viewBox": "0 0 24 24",
+  },
+  "star": {
+    "multicolor": false,
+    "tree": [
+      {
+        "children": [],
+        "pathLength": 73.16348025791402,
+        "props": {
+          "d": "m12 2 3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z",
+          "fill": "currentColor",
+        },
+        "tag": "path",
+      },
+    ],
+    "viewBox": "0 0 24 24",
+  },
+}
+`;

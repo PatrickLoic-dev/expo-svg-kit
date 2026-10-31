@@ -1,0 +1,73 @@
+import React from 'react';
+import {
+  Circle,
+  ClipPath,
+  Defs,
+  Ellipse,
+  G,
+  Line,
+  LinearGradient,
+  Path,
+  Polygon,
+  Polyline,
+  RadialGradient,
+  Rect,
+  Stop,
+  Svg,
+  Text,
+  TSpan,
+  Use,
+} from 'react-native-svg';
+import type { SvgNode } from '../types';
+
+const TAG_TO_COMPONENT: Record<string, React.ElementType> = {
+  svg: Svg,
+  g: G,
+  path: Path,
+  circle: Circle,
+  rect: Rect,
+  line: Line,
+  polyline: Polyline,
+  polygon: Polygon,
+  ellipse: Ellipse,
+  defs: Defs,
+  clippath: ClipPath,
+  lineargradient: LinearGradient,
+  radialgradient: RadialGradient,
+  stop: Stop,
+  use: Use,
+  text: Text,
+  tspan: TSpan,
+};
+
+function toProps(
+  node: SvgNode,
+  colorOverrides: Record<string, string> | undefined
+): Record<string, unknown> {
+  const props: Record<string, unknown> = { ...node.props };
+  const id = node.props.id;
+  const override = id ? colorOverrides?.[id] : undefined;
+  if (override) {
+    if ('fill' in props) props.fill = override;
+    if ('stroke' in props) props.stroke = override;
+  }
+  return props;
+}
+
+/** Recursively renders a compiled SvgNode tree into react-native-svg primitives. */
+export function renderSvgNode(
+  node: SvgNode,
+  key: string | number,
+  colorOverrides?: Record<string, string>
+): React.ReactNode {
+  const Component = TAG_TO_COMPONENT[node.tag.toLowerCase()];
+  if (!Component) return null;
+
+  const children = node.children.map((child, index) => renderSvgNode(child, index, colorOverrides));
+
+  return (
+    <Component key={key} {...toProps(node, colorOverrides)}>
+      {children}
+    </Component>
+  );
+}
