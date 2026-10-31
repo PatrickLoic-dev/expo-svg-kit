@@ -8,19 +8,20 @@ This is the monorepo root. The published package lives in
 [README](packages/expo-svg-kit/README.md) for the full API reference. A runnable demo app
 lives in [`example/`](example).
 
-## Status: v0.1
+## Status: v0.2
 
 - CLI: `svg-kit generate` — compiles a folder of SVGs into a typed registry (SVGO
   optimization, `currentColor` theming, layer ids preserved, sanitization, kebab-case
-  naming).
+  naming, incremental cache).
 - Runtime: `<SvgKitProvider/>` + `<Icon/>` — theme-aware, per-layer color overrides,
   graceful fallback on unknown icon names.
+- Metro transformer: `import Logo from './logo.svg'` directly, no registry needed.
+- `<RemoteSvg/>`: fetches, caches (`expo-file-system`), and compiles SVGs from a URL, on-device.
 - Example app with a gallery screen, a props demo screen, and 15 sample SVGs (fills,
-  strokes, multicolor logos, transforms, Figma/Illustrator exports).
-- 13 tests, ESLint + Prettier, GitHub Actions CI, `npm pack` verification.
+  strokes, multicolor logos, transforms, Figma/Illustrator exports, a direct `.svg` import).
+- 43 tests, ESLint + Prettier, GitHub Actions CI, `npm pack` verification.
 
-Not yet implemented (see [Roadmap](#roadmap)): a Metro transformer for `import Logo from
-'./logo.svg'`, remote/external SVG loading, and animations.
+Not yet implemented (see [Roadmap](#roadmap)): animations.
 
 ## Quick start
 
@@ -52,7 +53,7 @@ See [CLAUDE.md](CLAUDE.md) for the full set of commands, conventions, and commit
 | Version | Scope |
 | ------- | ----- |
 | **v0.1** (done) | CLI `generate`, `<SvgKitProvider/>` + `<Icon/>`, example app, tests, CI, publish-ready package. |
-| **v0.2** | Metro transformer (`import Logo from './logo.svg'`), `<RemoteSvg/>` with an `expo-file-system` cache for external SVGs. |
+| **v0.2** (done) | Metro transformer (`import Logo from './logo.svg'`), `<RemoteSvg/>` with an `expo-file-system` cache for external SVGs. |
 | **v0.3** | Reanimated-powered animations (draw, pulse, spin, color, imperative API). `react-native-reanimated` becomes a peer dependency only at this point. |
 | **v0.4** | Shape morphing, staggered animations, optional Skia renderer. |
 
