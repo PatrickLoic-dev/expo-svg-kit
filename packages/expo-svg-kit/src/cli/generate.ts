@@ -71,7 +71,9 @@ export async function buildRegistry(
   return registry;
 }
 
-async function runOnce(options: GenerateOptions): Promise<{ input: string; output: string; count: number }> {
+async function runOnce(
+  options: GenerateOptions
+): Promise<{ input: string; output: string; count: number }> {
   const config = resolveConfig(options.cwd, { input: options.input, output: options.output });
   const registry = await buildRegistry(config.input, config.svgo);
   fs.mkdirSync(path.dirname(config.output), { recursive: true });
@@ -81,7 +83,9 @@ async function runOnce(options: GenerateOptions): Promise<{ input: string; outpu
 
 export async function generate(options: GenerateOptions): Promise<void> {
   const result = await runOnce(options);
-  console.log(`[svg-kit] generated ${result.count} icon(s) -> ${path.relative(options.cwd, result.output)}`);
+  console.log(
+    `[svg-kit] generated ${result.count} icon(s) -> ${path.relative(options.cwd, result.output)}`
+  );
 
   if (options.watch) {
     // eslint-disable-next-line @typescript-eslint/no-require-imports -- optional dependency, only loaded in watch mode
@@ -90,9 +94,14 @@ export async function generate(options: GenerateOptions): Promise<void> {
     chokidar.watch(result.input, { ignoreInitial: true }).on('all', async () => {
       try {
         const next = await runOnce(options);
-        console.log(`[svg-kit] regenerated ${next.count} icon(s) -> ${path.relative(options.cwd, next.output)}`);
+        console.log(
+          `[svg-kit] regenerated ${next.count} icon(s) -> ${path.relative(options.cwd, next.output)}`
+        );
       } catch (error) {
-        console.error('[svg-kit] generation failed:', error instanceof Error ? error.message : error);
+        console.error(
+          '[svg-kit] generation failed:',
+          error instanceof Error ? error.message : error
+        );
       }
     });
   }

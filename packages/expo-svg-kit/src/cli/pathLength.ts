@@ -18,7 +18,10 @@ function shapeToPathD(tag: string, attributes: Record<string, string>): string |
 }
 
 /** Computes the total length of a shape's outline, when supported, for future draw animations. */
-export function computePathLength(tag: string, attributes: Record<string, string>): number | undefined {
+export function computePathLength(
+  tag: string,
+  attributes: Record<string, string>
+): number | undefined {
   if (!LENGTH_CAPABLE_TAGS.has(tag)) return undefined;
   const d = shapeToPathD(tag, attributes);
   if (!d) return undefined;

@@ -15,7 +15,11 @@ const registry: IconRegistry = {
     viewBox: '0 0 32 32',
     multicolor: true,
     tree: [
-      { tag: 'circle', props: { id: 'bg', cx: '16', cy: '16', r: '16', fill: '#123456' }, children: [] },
+      {
+        tag: 'circle',
+        props: { id: 'bg', cx: '16', cy: '16', r: '16', fill: '#123456' },
+        children: [],
+      },
       {
         tag: 'rect',
         props: { id: 'stripe', x: '4', y: '14', width: '24', height: '4', fill: '#abcdef' },
@@ -39,7 +43,9 @@ function renderWithProvider(ui: React.ReactElement, theme = {}) {
 
 describe('<Icon/>', () => {
   it('resolves a theme key passed as color', () => {
-    const renderer = renderWithProvider(<Icon name="star" color="primary" />, { primary: '#ff0000' });
+    const renderer = renderWithProvider(<Icon name="star" color="primary" />, {
+      primary: '#ff0000',
+    });
     const svg = renderer.root.findByType(Svg);
     expect(svg.props.color).toBe('#ff0000');
   });

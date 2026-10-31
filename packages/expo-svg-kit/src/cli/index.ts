@@ -37,7 +37,12 @@ export async function run(argv: string[] = process.argv.slice(2)): Promise<void>
   }
 
   try {
-    await generate({ cwd: process.cwd(), input: args.input, output: args.output, watch: args.watch });
+    await generate({
+      cwd: process.cwd(),
+      input: args.input,
+      output: args.output,
+      watch: args.watch,
+    });
   } catch (error) {
     console.error('[svg-kit]', error instanceof Error ? error.message : error);
     process.exitCode = 1;

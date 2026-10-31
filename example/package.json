@@ -1,0 +1,28 @@
+{
+  "name": "expo-svg-kit-example",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.ts",
+  "scripts": {
+    "start": "expo start",
+    "web": "expo start --web",
+    "export:web": "expo export --platform web",
+    "generate": "svg-kit generate",
+    "generate:watch": "svg-kit generate --watch"
+  },
+  "dependencies": {
+    "expo": "58.0.21",
+    "expo-status-bar": "~58.0.4",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-native": "0.88.1",
+    "react-native-svg": "15.16.0",
+    "react-native-web": "~0.21.4",
+    "expo-svg-kit": "*"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.7",
+    "typescript": "~5.9.3",
+    "@types/react": "~19.1.0"
+  }
+}

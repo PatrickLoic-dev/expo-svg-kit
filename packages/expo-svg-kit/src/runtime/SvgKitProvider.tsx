@@ -15,7 +15,11 @@ export interface SvgKitProviderProps {
 }
 
 /** Makes an icon registry and a color theme available to every <Icon/> below it. */
-export function SvgKitProvider({ registry, theme = {}, children }: SvgKitProviderProps): React.JSX.Element {
+export function SvgKitProvider({
+  registry,
+  theme = {},
+  children,
+}: SvgKitProviderProps): React.JSX.Element {
   const value = useMemo(() => ({ registry, theme }), [registry, theme]);
   return <SvgKitContext.Provider value={value}>{children}</SvgKitContext.Provider>;
 }

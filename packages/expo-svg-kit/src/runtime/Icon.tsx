@@ -45,7 +45,9 @@ export const Icon = React.memo(function Icon({
     return null;
   }
 
-  const children = definition.tree.map((node, index) => renderSvgNode(node, index, resolvedOverrides));
+  const children = definition.tree.map((node, index) =>
+    renderSvgNode(node, index, resolvedOverrides)
+  );
 
   return (
     <Svg

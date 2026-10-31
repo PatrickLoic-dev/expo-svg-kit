@@ -16,7 +16,9 @@ describe('buildRegistry', () => {
     const registry = await buildRegistry(FIXTURES_DIR, {});
     expect(registry.star.tree[0].props.fill).toBe('currentColor');
     expect(registry['brand-logo'].multicolor).toBe(true);
-    expect(registry['brand-logo'].tree.find((n) => n.props.id === 'bg')?.props.fill).toBe('#123456');
+    expect(registry['brand-logo'].tree.find((n) => n.props.id === 'bg')?.props.fill).toBe(
+      '#123456'
+    );
   });
 
   it('sanitizes dangerous content from malicious.svg', async () => {
@@ -27,8 +29,14 @@ describe('buildRegistry', () => {
 
   it('throws a clear error on duplicate derived names', async () => {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'svg-kit-dup-'));
-    fs.writeFileSync(path.join(dir, 'add-circle.svg'), '<svg viewBox="0 0 24 24"><path d="M0 0" /></svg>');
-    fs.writeFileSync(path.join(dir, 'add_circle.svg'), '<svg viewBox="0 0 24 24"><path d="M0 0" /></svg>');
+    fs.writeFileSync(
+      path.join(dir, 'add-circle.svg'),
+      '<svg viewBox="0 0 24 24"><path d="M0 0" /></svg>'
+    );
+    fs.writeFileSync(
+      path.join(dir, 'add_circle.svg'),
+      '<svg viewBox="0 0 24 24"><path d="M0 0" /></svg>'
+    );
 
     await expect(buildRegistry(dir, {})).rejects.toThrow(/Duplicate icon name/);
 
@@ -38,7 +46,7 @@ describe('buildRegistry', () => {
   it('generates a registry whose TypeScript compiles cleanly', async () => {
     const registry = await buildRegistry(FIXTURES_DIR, {});
     const source = renderRegistryFile(registry);
-    expect(source).toContain("export type IconName =");
+    expect(source).toContain('export type IconName =');
     expect(source).toContain("'star'");
   });
 });
