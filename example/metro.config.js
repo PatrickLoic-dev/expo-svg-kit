@@ -15,4 +15,9 @@ config.resolver.nodeModulesPaths = [
   path.resolve(workspaceRoot, 'node_modules'),
 ];
 
+// Let `import Logo from './logo.svg'` work directly, without going through svg-kit generate.
+config.transformer.babelTransformerPath = require.resolve('expo-svg-kit/metro-transformer');
+config.resolver.assetExts = config.resolver.assetExts.filter((ext) => ext !== 'svg');
+config.resolver.sourceExts = [...config.resolver.sourceExts, 'svg'];
+
 module.exports = config;

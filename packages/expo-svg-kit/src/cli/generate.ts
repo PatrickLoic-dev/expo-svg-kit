@@ -1,31 +1,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { parse } from 'svgson';
-import { optimize, type Config as SvgoConfig } from 'svgo';
+import { optimize } from 'svgo';
 import type { IconRegistry } from '../types';
 import { hashInput, hashSvgoOptions, loadCache, saveCache, type Cache } from './cache';
 import { resolveConfig } from './config';
 import { fileNameToIconName } from './kebabCase';
 import { renderRegistryFile } from './registryGen';
 import { sanitizeSvgTree } from './sanitize';
+import { DEFAULT_SVGO_CONFIG } from './svgoConfig';
 import { svgTreeToIconDefinition } from './svgToTree';
-
-// Typed loosely: svgo's PluginConfig union doesn't model passing `params` to a builtin preset by name.
-const DEFAULT_SVGO_CONFIG = {
-  plugins: [
-    {
-      name: 'preset-default',
-      params: {
-        overrides: {
-          // Element ids are load-bearing: <Icon colors={{ [id]: ... }}/> overrides layers by id.
-          cleanupIds: false,
-        },
-      },
-    },
-    // removeViewBox lives outside preset-default in svgo 4; disable it explicitly instead.
-    { name: 'removeViewBox', active: false },
-  ],
-} as unknown as SvgoConfig;
 
 export interface GenerateOptions {
   cwd: string;

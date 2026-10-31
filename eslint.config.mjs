@@ -21,9 +21,20 @@ export default tseslint.config(
       '**/jest.config.js',
       '**/bin/*.js',
       '**/scripts/*.js',
+      '**/__fixtures__/**/*.js',
+      '**/__mocks__/**/*.js',
     ],
     languageOptions: {
       globals: globals.node,
+    },
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
+  {
+    files: ['**/__tests__/**/*.ts', '**/__tests__/**/*.tsx'],
+    languageOptions: {
+      globals: { ...globals.node, ...globals.jest },
     },
     rules: {
       '@typescript-eslint/no-require-imports': 'off',

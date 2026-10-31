@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Icon } from 'expo-svg-kit';
+// v0.2: direct import via the Metro transformer, no svg-kit generate / registry needed.
+import DirectTrash from '../assets/svg/trash.svg';
 
 const SIZES = [16, 24, 32, 48];
 const COLOR_OPTIONS = ['primary', 'danger', 'currentColor-demo'] as const;
@@ -36,6 +38,14 @@ export function PropsDemoScreen({ textColor }: PropsDemoScreenProps): React.JSX.
       <View style={styles.row}>
         <Icon name="brand-logo" size={56} />
         <Icon name="brand-logo" size={56} colors={{ bg: '#16A34A' }} />
+      </View>
+
+      <Text style={[styles.section, { color: textColor }]}>
+        Direct import via the Metro transformer (v0.2, no registry)
+      </Text>
+      <View style={styles.row}>
+        <DirectTrash size={32} color={textColor} />
+        <Text style={{ color: textColor }}>import DirectTrash from '../assets/svg/trash.svg'</Text>
       </View>
 
       <Text style={[styles.section, { color: textColor }]}>

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Svg } from 'react-native-svg';
 import { useSvgKitContext } from './SvgKitProvider';
-import { renderSvgNode } from './renderNode';
+import { renderSvgTree } from './renderNode';
 import { resolveColor } from './theme';
 
 export interface IconProps {
@@ -45,9 +45,7 @@ export const Icon = React.memo(function Icon({
     return null;
   }
 
-  const children = definition.tree.map((node, index) =>
-    renderSvgNode(node, index, resolvedOverrides)
-  );
+  const children = renderSvgTree(definition.tree, resolvedOverrides);
 
   return (
     <Svg

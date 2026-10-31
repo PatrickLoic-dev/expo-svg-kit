@@ -17,7 +17,7 @@ const REQUIRED_FILES = [
   'lib/typescript/commonjs/index.d.ts',
 ];
 
-const FORBIDDEN_PATTERNS = [/__tests__\//, /__fixtures__\//, /\.test\./, /\.snap$/];
+const FORBIDDEN_PATTERNS = [/__tests__\//, /__fixtures__\//, /__mocks__\//, /\.test\./, /\.snap$/];
 
 function listTarballEntries(tarballPath) {
   const gunzipped = zlib.gunzipSync(fs.readFileSync(tarballPath));
