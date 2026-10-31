@@ -3,6 +3,7 @@ import path from 'node:path';
 import { parse } from 'svgson';
 import { optimize, type Config as SvgoConfig } from 'svgo';
 import type { IconRegistry } from '../types';
+import { hashInput, hashSvgoOptions, loadCache, saveCache, type Cache } from './cache';
 import { resolveConfig } from './config';
 import { fileNameToIconName } from './kebabCase';
 import { renderRegistryFile } from './registryGen';
@@ -41,13 +42,20 @@ function listSvgFiles(dir: string): string[] {
     .sort();
 }
 
-/** Builds the full icon registry from every SVG file in `input` and returns it alongside its name list. */
+/**
+ * Builds the full icon registry from every SVG file in `input`. When `cachePath` is given, files
+ * whose content and svgo options are unchanged since the last run skip SVGO/parsing entirely.
+ */
 export async function buildRegistry(
   inputDir: string,
-  svgoOptions: Record<string, unknown>
+  svgoOptions: Record<string, unknown>,
+  cachePath?: string
 ): Promise<IconRegistry> {
   const registry: IconRegistry = {};
   const seen = new Map<string, string>();
+  const previousCache = cachePath ? loadCache(cachePath) : {};
+  const nextCache: Cache = {};
+  const optionsHash = hashSvgoOptions(svgoOptions);
 
   for (const file of listSvgFiles(inputDir)) {
     const { name, multicolor } = fileNameToIconName(file);
@@ -62,20 +70,37 @@ export async function buildRegistry(
     seen.set(name, file);
 
     const raw = fs.readFileSync(path.join(inputDir, file), 'utf8');
+    const hash = hashInput(raw, optionsHash, multicolor);
+    const cached = previousCache[name];
+
+    if (cached && cached.hash === hash) {
+      registry[name] = cached.definition;
+      nextCache[name] = cached;
+      continue;
+    }
+
     const optimized = optimize(raw, { ...DEFAULT_SVGO_CONFIG, ...svgoOptions, path: file }).data;
     const parsed = await parse(optimized);
     const sanitized = sanitizeSvgTree(parsed);
-    registry[name] = svgTreeToIconDefinition(sanitized, multicolor);
+    const definition = svgTreeToIconDefinition(sanitized, multicolor);
+    registry[name] = definition;
+    nextCache[name] = { hash, definition };
   }
 
+  if (cachePath) saveCache(cachePath, nextCache);
+
   return registry;
+}
+
+function cachePathFor(outputPath: string): string {
+  return `${outputPath}.cache.json`;
 }
 
 async function runOnce(
   options: GenerateOptions
 ): Promise<{ input: string; output: string; count: number }> {
   const config = resolveConfig(options.cwd, { input: options.input, output: options.output });
-  const registry = await buildRegistry(config.input, config.svgo);
+  const registry = await buildRegistry(config.input, config.svgo, cachePathFor(config.output));
   fs.mkdirSync(path.dirname(config.output), { recursive: true });
   fs.writeFileSync(config.output, renderRegistryFile(registry), 'utf8');
   return { input: config.input, output: config.output, count: Object.keys(registry).length };

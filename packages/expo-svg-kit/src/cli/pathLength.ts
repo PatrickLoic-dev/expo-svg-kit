@@ -9,10 +9,18 @@ function shapeToPathD(tag: string, attributes: Record<string, string>): string |
     return `M${x1},${y1} L${x2},${y2}`;
   }
   if (tag === 'polyline' || tag === 'polygon') {
-    const points = (attributes.points ?? '').trim();
-    if (!points) return null;
+    // `points` coordinates may be separated by whitespace, commas, or both (e.g. "10,10 20,20").
+    const numbers = (attributes.points ?? '')
+      .trim()
+      .split(/[\s,]+/)
+      .filter(Boolean);
+    if (numbers.length < 2 || numbers.length % 2 !== 0) return null;
+    const coords: string[] = [];
+    for (let i = 0; i < numbers.length; i += 2) {
+      coords.push(`${numbers[i]},${numbers[i + 1]}`);
+    }
     const close = tag === 'polygon' ? ' Z' : '';
-    return `M${points.replace(/\s+/g, ' L ')}${close}`;
+    return `M${coords.join(' L ')}${close}`;
   }
   return null;
 }
