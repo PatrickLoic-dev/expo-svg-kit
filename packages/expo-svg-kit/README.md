@@ -1,7 +1,36 @@
+<div align="center">
+
 # expo-svg-kit
 
-Typed SVG registry and a themeable `<Icon/>` component for Expo / React Native. Pure JS/TS,
-no native code — works in Expo Go, iOS, Android, and web.
+[![npm version](https://img.shields.io/npm/v/expo-svg-kit?color=10b981&style=flat-square)](https://www.npmjs.com/package/expo-svg-kit)
+[![License: MIT](https://img.shields.io/badge/license-MIT-10b981?style=flat-square)](https://github.com/PatrickLoic-dev/expo-svg-kit/blob/master/LICENSE)
+[![Built for Expo](https://img.shields.io/badge/built%20for-Expo-10b981?style=flat-square&logo=expo&logoColor=white)](https://expo.dev)
+[![GitHub stars](https://img.shields.io/github/stars/PatrickLoic-dev/expo-svg-kit?color=10b981&style=flat-square)](https://github.com/PatrickLoic-dev/expo-svg-kit)
+
+<p>
+  Typed SVG registry and a themeable <code>&lt;Icon/&gt;</code> component for Expo / React Native.<br/>
+  Pure JS/TS, no native code — works in Expo Go, iOS, Android, and web.
+</p>
+
+**[View on GitHub](https://github.com/PatrickLoic-dev/expo-svg-kit)** — if this saves you time, a ⭐ helps others find it.
+
+</div>
+
+---
+
+## Why expo-svg-kit?
+
+- **Typed by construction** — the CLI generates a registry, so `<Icon name="..."/>` is
+  autocompleted and typo-checked against your actual SVG files.
+- **One `color` prop, everywhere** — fixed `fill`/`stroke` values are rewritten to
+  `currentColor` at build time, so a single prop recolors an icon (or a theme key recolors a
+  whole app).
+- **Three ways to render an SVG**, depending on where it lives: a typed registry (`<Icon/>`),
+  a direct bundled import (`import Logo from './logo.svg'`), or a URL fetched on-device
+  (`<RemoteSvg/>`).
+- **No native code** — pure JS/TS on top of `react-native-svg`. Works in Expo Go.
+- **Safe by default** — every SVG is sanitized (`<script>`, `on*` handlers, external
+  references stripped) whether it comes from disk or a URL.
 
 ## Install
 
@@ -212,11 +241,29 @@ npm run example:web
 
 ## Roadmap
 
+- **v0.1** (done): CLI `generate`, `<SvgKitProvider/>` + `<Icon/>`, example app, tests, CI.
 - **v0.2** (done): a Metro transformer (`import Logo from './logo.svg'`), `<RemoteSvg/>` with an
   `expo-file-system` cache.
 - **v0.3**: Reanimated-powered animations (draw, pulse, spin, color, imperative API).
 - **v0.4**: morphing, staggered animations, optional Skia renderer.
 
+## Development
+
+```bash
+git clone https://github.com/PatrickLoic-dev/expo-svg-kit.git
+cd expo-svg-kit
+npm install
+npm run build --workspace=expo-svg-kit
+npm run test --workspace=expo-svg-kit
+npm run typecheck --workspace=expo-svg-kit
+```
+
+## Contributing
+
+Issues and pull requests are welcome on
+[github.com/PatrickLoic-dev/expo-svg-kit](https://github.com/PatrickLoic-dev/expo-svg-kit).
+If this package is useful to you, consider **starring the repo** — it helps others discover it.
+
 ## License
 
-MIT
+MIT © [Patrick Loïc Kangue](https://github.com/PatrickLoic-dev)
