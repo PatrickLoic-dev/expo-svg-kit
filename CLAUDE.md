@@ -3,7 +3,7 @@
 ## Objectif
 
 Package open source Expo / React Native pour gérer des SVG personnalisés : un registre typé
-généré par CLI, un composant `<Icon/>` thémable, et plus tard des animations (Reanimated).
+généré par CLI, un composant `<Icon/>` thémable, et des animations (`<AnimatedIcon/>`, Reanimated).
 JS/TS pur, aucun code natif, compatible Expo Go, iOS, Android, web.
 
 ## Structure
@@ -13,6 +13,8 @@ packages/expo-svg-kit/   le package publié (CLI + runtime)
   src/cli/                svg-kit generate : SVGO, parsing, sanitization, cache, génération du registre
   src/runtime/            SvgKitProvider, Icon, RemoteSvg, renderer récursif react-native-svg
   src/metro/              transformer Metro (import direct d'un .svg sans registre)
+  src/animated/           AnimatedIcon (spin/pulse/color/draw via react-native-reanimated),
+                          exporté séparément sous expo-svg-kit/animated
   bin/svg-kit.js          point d'entrée CLI (compilé en CJS par bob)
 example/                  app Expo qui consomme le package via le workspace npm
 ```
@@ -56,11 +58,15 @@ Dans `example/` : `npx expo start` (iOS/Android, nécessite Expo Go ou un simula
   CI, publication npm.
 - **v0.2** (fait) : transformer Metro (`import Logo from './logo.svg'`), `<RemoteSvg/>` avec
   cache `expo-file-system`.
-- **v0.3** : animations Reanimated (draw, pulse, spin, color, API impérative) — ajoute
-  `react-native-reanimated` en peer dependency à ce moment, pas avant.
+- **v0.3** (fait) : animations Reanimated (draw, pulse, spin, color, API impérative).
 - **v0.4** : morph, stagger, renderer Skia optionnel.
 
-## État v0.2 (mis à jour en fin de session)
+## Dépôt GitHub
+
+https://github.com/PatrickLoic-dev/expo-svg-kit (remote `origin`, branche `master`). Le monorepo
+entier y est poussé (package + example + docs).
+
+## État v0.3 (mis à jour en fin de session)
 
 Fait (v0.1) : CLI `svg-kit generate` (SVGO, sanitization, arbre JSON, pathLength, registre typé,
 `--watch`, `svg-kit.config.js`, cache incrémental par hash) ; runtime `<SvgKitProvider/>` +
@@ -75,9 +81,26 @@ dans le navigateur via l'app example (section "Direct import" du Props demo) ; `
 `Directory`/`Paths`) et compile un SVG distant à la volée (`svgo/browser`, pas l'entrée Node de
 svgo) ; participe au thème du `<SvgKitProvider/>` le plus proche s'il existe.
 
-43 tests au total (CLI, cache, config, transformer Metro mocké, `RemoteSvg` avec
-`expo-file-system` mocké).
+Fait (v0.3) : `<AnimatedIcon/>` (`src/animated/`, exporté sous `expo-svg-kit/animated` pour ne
+pas forcer `react-native-reanimated` — optionnelle en peer dependency — sur les consommateurs de
+`<Icon/>` seul) — animations `spin`/`pulse`/`color` (wrapper `Animated.View`/`Animated.Svg`) et
+`draw` (révèle les `path`/`line`/`polyline`/`polygon` via `strokeDashoffset` animé, à partir du
+`pathLength` déjà précalculé par le CLI/transformer) ; API impérative `play()`/`pause()`/`reset()`
+via ref. Jest configuré avec le resolver web de Reanimated (`react-native-reanimated/jest/resolver`
++ `setUpTests()`) pour exécuter les animations réelles sous Jest. App `example/` : nouvel onglet
+"Animations" (spin sur refresh, pulse sur bell, color sur heart, draw sur check), vérifié en live
+dans le navigateur (le spin tourne réellement, pas de nouvelle erreur console).
+
+Bug corrigé pendant la review : l'effet qui démarre l'animation s'exécutait même pour un nom
+d'icône inconnu (avant le bail-out `!definition`) — corrigé pour ne jamais démarrer d'animation
+sur une icône introuvable. Un premier jet des tests a aussi fait planter Jest (boucle infinie
+réelle quand `autoPlay` par défaut + `loop: true` tournait sans jamais être arrêtée) — tous les
+tests passent désormais `autoPlay={false}` sauf pour tester explicitement play/pause/reset.
+
+51 tests au total (CLI, cache, config, transformer Metro mocké, `RemoteSvg` avec
+`expo-file-system` mocké, `AnimatedIcon`).
 
 Reste pour la suite : tester sur iOS/Android réels (seul le web a été vérifié) ; démo live de
-`<RemoteSvg/>` dans l'app example (nécessite un accès réseau non disponible dans cette session) ;
-publication npm effective ; v0.3 (animations Reanimated).
+`<RemoteSvg/>` dans l'app example (toujours pas de vraie démo réseau) ; publication npm effective
+(version package.json toujours à 0.1.0 malgré v0.1→v0.3 livrées — à bumper avant publication) ;
+v0.4 (morph, stagger, Skia).

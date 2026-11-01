@@ -8,7 +8,7 @@ This is the monorepo root. The published package lives in
 [README](packages/expo-svg-kit/README.md) for the full API reference. A runnable demo app
 lives in [`example/`](example).
 
-## Status: v0.2
+## Status: v0.3
 
 - CLI: `svg-kit generate` — compiles a folder of SVGs into a typed registry (SVGO
   optimization, `currentColor` theming, layer ids preserved, sanitization, kebab-case
@@ -17,11 +17,14 @@ lives in [`example/`](example).
   graceful fallback on unknown icon names.
 - Metro transformer: `import Logo from './logo.svg'` directly, no registry needed.
 - `<RemoteSvg/>`: fetches, caches (`expo-file-system`), and compiles SVGs from a URL, on-device.
-- Example app with a gallery screen, a props demo screen, and 15 sample SVGs (fills,
-  strokes, multicolor logos, transforms, Figma/Illustrator exports, a direct `.svg` import).
-- 43 tests, ESLint + Prettier, GitHub Actions CI, `npm pack` verification.
+- `<AnimatedIcon/>` (`expo-svg-kit/animated`): Reanimated-powered `spin`, `pulse`, `color`,
+  and `draw` animations, with an imperative play/pause/reset API.
+- Example app with a gallery screen, a props demo screen, an animations screen, and 15 sample
+  SVGs (fills, strokes, multicolor logos, transforms, Figma/Illustrator exports, a direct
+  `.svg` import).
+- 51 tests, ESLint + Prettier, GitHub Actions CI, `npm pack` verification.
 
-Not yet implemented (see [Roadmap](#roadmap)): animations.
+Not yet implemented (see [Roadmap](#roadmap)): shape morphing, staggered animations.
 
 ## Quick start
 
@@ -54,7 +57,7 @@ See [CLAUDE.md](CLAUDE.md) for the full set of commands, conventions, and commit
 | ------- | ----- |
 | **v0.1** (done) | CLI `generate`, `<SvgKitProvider/>` + `<Icon/>`, example app, tests, CI, publish-ready package. |
 | **v0.2** (done) | Metro transformer (`import Logo from './logo.svg'`), `<RemoteSvg/>` with an `expo-file-system` cache for external SVGs. |
-| **v0.3** | Reanimated-powered animations (draw, pulse, spin, color, imperative API). `react-native-reanimated` becomes a peer dependency only at this point. |
+| **v0.3** (done) | Reanimated-powered animations (`<AnimatedIcon/>`: draw, pulse, spin, color, imperative API). `react-native-reanimated` is an optional peer dependency, used only via `expo-svg-kit/animated`. |
 | **v0.4** | Shape morphing, staggered animations, optional Skia renderer. |
 
 ## License

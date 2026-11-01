@@ -28,6 +28,9 @@
 - **Three ways to render an SVG**, depending on where it lives: a typed registry (`<Icon/>`),
   a direct bundled import (`import Logo from './logo.svg'`), or a URL fetched on-device
   (`<RemoteSvg/>`).
+- **Animations when you want them, not when you don't** — `<AnimatedIcon/>` (spin, pulse,
+  color, draw) lives behind a separate `expo-svg-kit/animated` entry point, so Reanimated is
+  only pulled in if you actually use it.
 - **No native code** — pure JS/TS on top of `react-native-svg`. Works in Expo Go.
 - **Safe by default** — every SVG is sanitized (`<script>`, `on*` handlers, external
   references stripped) whether it comes from disk or a URL.
@@ -227,11 +230,63 @@ build) rather than its Node entry point.
 | `onError`             | `(error: Error) => void` | Called if the download or compilation fails.                               |
 | `accessibilityLabel`  | `string`                  | Makes the icon an accessible element with this label.                      |
 
+## Animations: `<AnimatedIcon/>` (v0.3)
+
+`spin`, `pulse`, `color`, and `draw` animations, powered by
+[`react-native-reanimated`](https://docs.swmansion.com/react-native-reanimated/). It lives in a
+separate entry point, `expo-svg-kit/animated`, so installing `expo-svg-kit` never pulls in
+Reanimated for consumers who only use `<Icon/>` — it's an optional peer dependency.
+
+```bash
+npx expo install react-native-reanimated
+```
+
+```tsx
+import { AnimatedIcon } from 'expo-svg-kit/animated';
+
+<AnimatedIcon name="refresh" animation="spin" size={32} color="primary" />;
+```
+
+Like `<Icon/>`, `<AnimatedIcon/>` reads from the active `<SvgKitProvider/>` registry and theme.
+
+- **`spin`** — continuous rotation. Loops by default.
+- **`pulse`** — scales up and back down. Loops by default.
+- **`color`** — fades from `color` to `toColor`. One-shot by default.
+- **`draw`** — reveals `<path>`/`<line>`/`<polyline>`/`<polygon>` shapes by animating
+  `strokeDashoffset` from the CLI/transformer's precomputed `pathLength`. One-shot by default.
+  Works best with stroke-based (outline) icons — shapes without a stroke, or without a
+  precomputed length (e.g. `<circle>`), render immediately instead of drawing in.
+
+Control playback imperatively with a ref:
+
+```tsx
+import { useRef } from 'react';
+import { AnimatedIcon, type AnimatedIconHandle } from 'expo-svg-kit/animated';
+
+const ref = useRef<AnimatedIconHandle>(null);
+
+<AnimatedIcon ref={ref} name="check" animation="draw" autoPlay={false} />;
+// later: ref.current?.play() / .pause() / .reset()
+```
+
+### `<AnimatedIcon/>` props
+
+All `<Icon/>` props, plus:
+
+| Prop         | Type                | Description                                                                  |
+| ------------ | ------------------- | ----------------------------------------------------------------------------- |
+| `animation`  | `'spin' \| 'pulse' \| 'color' \| 'draw'` | Which animation to play.                                 |
+| `duration`   | `number`             | Length of one cycle, in ms. Defaults depend on `animation`.                  |
+| `loop`       | `boolean`            | Repeat forever. Defaults to `true` for `spin`/`pulse`, `false` for `color`/`draw`. |
+| `autoPlay`   | `boolean` (default `true`) | Play automatically on mount, and whenever `animation`/`duration`/`loop` change. |
+| `pulseScale` | `number` (default `1.15`) | `pulse` only: the peak scale factor.                              |
+| `toColor`    | `string`             | `color` only: the color to animate toward. Accepts theme keys too.           |
+
 ## Example app
 
 See [`example/`](../../example) for a runnable Expo app with a gallery screen, a props demo
-screen, and 15 sample SVGs covering fills, strokes, multicolor logos, transforms, and files
-exported from Figma/Illustrator.
+screen, an animations screen, and 15 sample SVGs covering fills, strokes, multicolor logos,
+transforms, and files exported from Figma/Illustrator.
 
 ```bash
 npm install
@@ -244,7 +299,8 @@ npm run example:web
 - **v0.1** (done): CLI `generate`, `<SvgKitProvider/>` + `<Icon/>`, example app, tests, CI.
 - **v0.2** (done): a Metro transformer (`import Logo from './logo.svg'`), `<RemoteSvg/>` with an
   `expo-file-system` cache.
-- **v0.3**: Reanimated-powered animations (draw, pulse, spin, color, imperative API).
+- **v0.3** (done): Reanimated-powered animations (`<AnimatedIcon/>`: draw, pulse, spin, color,
+  imperative API).
 - **v0.4**: morphing, staggered animations, optional Skia renderer.
 
 ## Development
