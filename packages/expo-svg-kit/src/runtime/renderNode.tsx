@@ -40,7 +40,9 @@ const TAG_TO_COMPONENT: Record<string, React.ElementType> = {
   tspan: TSpan,
 };
 
-function toProps(
+/** Exported for reuse by the animated renderer (src/animated), which needs the same
+ * id-based color-override resolution for the shapes it animates. */
+export function toProps(
   node: SvgNode,
   colorOverrides: Record<string, string> | undefined
 ): Record<string, unknown> {

@@ -8,7 +8,10 @@ module.exports = {
   preset: 'jest-expo',
   rootDir: __dirname,
   testPathIgnorePatterns: ['/node_modules/', '/lib/'],
-  setupFilesAfterEnv: [],
+  // Makes Jest resolve react-native-reanimated/react-native-worklets' web (JS) implementation
+  // instead of their native one, so animated components can actually run under Jest.
+  resolver: 'react-native-reanimated/jest/resolver',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   // svgo's "./browser" export is ESM-only (no "require" condition), which Jest's CJS resolver
   // can't follow directly. Map it to the real file and let babel-jest transpile it, matching
   // how Metro resolves and bundles the same import at runtime.

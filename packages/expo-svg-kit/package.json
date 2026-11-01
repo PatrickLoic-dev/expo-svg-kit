@@ -29,6 +29,16 @@
         "default": "./lib/commonjs/index.js"
       }
     },
+    "./animated": {
+      "import": {
+        "types": "./lib/typescript/module/animated/index.d.ts",
+        "default": "./lib/module/animated/index.js"
+      },
+      "require": {
+        "types": "./lib/typescript/commonjs/animated/index.d.ts",
+        "default": "./lib/commonjs/animated/index.js"
+      }
+    },
     "./metro-transformer": "./lib/commonjs/metro/svgTransformer.js",
     "./svg-module": "./src/svg-module.d.ts",
     "./package.json": "./package.json"
@@ -46,13 +56,17 @@
     "react-native": "*",
     "react-native-svg": "*",
     "@expo/metro-config": "*",
-    "expo-file-system": "*"
+    "expo-file-system": "*",
+    "react-native-reanimated": "*"
   },
   "peerDependenciesMeta": {
     "@expo/metro-config": {
       "optional": true
     },
     "expo-file-system": {
+      "optional": true
+    },
+    "react-native-reanimated": {
       "optional": true
     }
   },
@@ -77,7 +91,9 @@
     "expo": "^58.0.21",
     "expo-modules-core": "^58.0.28",
     "@expo/metro-config": "^58.0.19",
-    "expo-file-system": "^58.0.13"
+    "expo-file-system": "^58.0.13",
+    "react-native-reanimated": "^4.7.1",
+    "react-native-worklets": "^0.13.0"
   },
   "react-native-builder-bob": {
     "source": "src",

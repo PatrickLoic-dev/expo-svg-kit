@@ -19,6 +19,7 @@ export default tseslint.config(
       '**/babel.config.js',
       '**/metro.config.js',
       '**/jest.config.js',
+      '**/jest.setup.js',
       '**/bin/*.js',
       '**/scripts/*.js',
       '**/__fixtures__/**/*.js',
