@@ -5,13 +5,14 @@ import { SvgKitProvider } from 'expo-svg-kit';
 import { registry } from './svg-registry';
 import { GalleryScreen } from './screens/GalleryScreen';
 import { PropsDemoScreen } from './screens/PropsDemoScreen';
+import { AnimationsScreen } from './screens/AnimationsScreen';
 
 const THEMES = {
   light: { background: '#FFFFFF', text: '#111827', primary: '#4F46E5', danger: '#DC2626' },
   dark: { background: '#0F172A', text: '#F8FAFC', primary: '#818CF8', danger: '#F87171' },
 };
 
-type Screen = 'gallery' | 'props';
+type Screen = 'gallery' | 'props' | 'animations';
 
 export default function App(): React.JSX.Element {
   const [screen, setScreen] = useState<Screen>('gallery');
@@ -35,6 +36,12 @@ export default function App(): React.JSX.Element {
             onPress={() => setScreen('props')}
             theme={theme}
           />
+          <TabButton
+            label="Animations"
+            active={screen === 'animations'}
+            onPress={() => setScreen('animations')}
+            theme={theme}
+          />
           <Pressable
             onPress={() => setScheme((s) => (s === 'light' ? 'dark' : 'light'))}
             style={styles.themeToggle}
@@ -44,10 +51,10 @@ export default function App(): React.JSX.Element {
             </Text>
           </Pressable>
         </View>
-        {screen === 'gallery' ? (
-          <GalleryScreen textColor={theme.text} />
-        ) : (
-          <PropsDemoScreen textColor={theme.text} />
+        {screen === 'gallery' && <GalleryScreen textColor={theme.text} />}
+        {screen === 'props' && <PropsDemoScreen textColor={theme.text} />}
+        {screen === 'animations' && (
+          <AnimationsScreen textColor={theme.text} primaryColor={theme.primary} />
         )}
       </SafeAreaView>
     </SvgKitProvider>
