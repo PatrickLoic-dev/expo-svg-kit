@@ -1,6 +1,6 @@
 {
   "name": "expo-svg-kit",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "Typed SVG registry and themeable <Icon/> renderer for Expo / React Native",
   "license": "MIT",
   "main": "lib/commonjs/index.js",
