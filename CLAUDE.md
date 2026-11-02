@@ -66,6 +66,18 @@ Dans `example/` : `npx expo start` (iOS/Android, nécessite Expo Go ou un simula
 https://github.com/PatrickLoic-dev/expo-svg-kit (remote `origin`, branche `master`). Le monorepo
 entier y est poussé (package + example + docs).
 
+## Démo publique
+
+- GIF de chaque preset d'animation : `packages/expo-svg-kit/docs/demo-{spin,pulse,color,draw}.gif`,
+  générés par `scripts/generate.js` (scratch, pas dans le repo) via `@resvg/resvg-js` + `gifenc` —
+  rendu déterministe de l'exacte courbe d'easing utilisée par `AnimatedIcon`, pas une capture
+  d'écran. Référencés dans le README via raw.githubusercontent.com.
+- Expo Snack (compte de l'auteur) : https://snack.expo.dev/@patrickloic/98e1ca — vendorise le
+  runtime (`SvgKitProvider`, `Icon`, `AnimatedIcon`) directement dans `App.js` en JS simple (pas de
+  TS), car le package n'est pas encore sur npm. À refaire avec un vrai `npm install expo-svg-kit`
+  une fois publié. Tourne sur Expo SDK v54.0.0 (plafond disponible dans Snack) ; reanimated/svg
+  ajoutés via le panneau "Problems" → "Add dependency" (versions auto-résolues par Snack).
+
 ## État v0.3 (mis à jour en fin de session)
 
 Fait (v0.1) : CLI `svg-kit generate` (SVGO, sanitization, arbre JSON, pathLength, registre typé,

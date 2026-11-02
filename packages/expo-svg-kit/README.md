@@ -58,7 +58,9 @@
   </tr>
 </table>
 
-Try it live: **[Expo Snack](#)** _(link added once published — see [Example app](#example-app))_.
+Try it live: **[Expo Snack](https://snack.expo.dev/@patrickloic/98e1ca)** — `<Icon/>` and
+`<AnimatedIcon/>` with no install required (the Snack vendors the runtime source directly, since
+the package isn't on npm yet).
 
 ## Install
 
