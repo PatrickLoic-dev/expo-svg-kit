@@ -78,6 +78,18 @@ entier y est poussé (package + example + docs).
   une fois publié. Tourne sur Expo SDK v54.0.0 (plafond disponible dans Snack) ; reanimated/svg
   ajoutés via le panneau "Problems" → "Add dependency" (versions auto-résolues par Snack).
 
+## Benchmark
+
+`packages/expo-svg-kit/docs/BENCHMARK.md` — comparaison honnête avec `react-native-nano-icons`
+(rendu en police de glyphes au lieu d'un arbre `react-native-svg`). Mesure réelle à nous : 50
+`<Icon/>`, React Profiler, web dev build, 20 runs, moyenne 12.11ms (raw samples dans le doc).
+Chiffres nano-icons cités depuis leur propre BENCHMARKS.md (iOS release, 1000 icônes, Xcode
+Instruments) — pas reproduits nous-mêmes (pas de toolchain iOS native dans cet environnement),
+clairement attribués et avec un avertissement sur la non-comparabilité directe des méthodologies.
+Conclut sur un tableau "quand utiliser quoi". L'écran de benchmark temporaire ajouté à
+`example/` pour produire la mesure a été retiré après usage (`git checkout`) pour ne pas
+alourdir l'app example.
+
 ## État v0.3 (mis à jour en fin de session)
 
 Fait (v0.1) : CLI `svg-kit generate` (SVGO, sanitization, arbre JSON, pathLength, registre typé,

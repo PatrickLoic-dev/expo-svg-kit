@@ -62,6 +62,16 @@ Try it live: **[Expo Snack](https://snack.expo.dev/@patrickloic/98e1ca)** — `<
 `<AnimatedIcon/>` with no install required (the Snack vendors the runtime source directly, since
 the package isn't on npm yet).
 
+## Performance: expo-svg-kit vs. font-glyph icon libraries
+
+`expo-svg-kit` renders a real `react-native-svg` view tree, which is more flexible (arbitrary
+runtime SVGs, per-layer color overrides, animations) but costs more per icon than a font-glyph
+library like [`react-native-nano-icons`](https://github.com/software-mansion-labs/react-native-nano-icons),
+which mounts icons as stacked text glyphs instead. We measured 50 `<Icon/>` mounting at ~12ms
+(web, dev build, 20 runs) and compared it against nano-icons' own published numbers — see the
+full write-up, methodology, and **"when to use which"** guidance in
+[`docs/BENCHMARK.md`](https://github.com/PatrickLoic-dev/expo-svg-kit/blob/master/packages/expo-svg-kit/docs/BENCHMARK.md).
+
 ## Install
 
 ```bash
