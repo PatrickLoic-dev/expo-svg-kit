@@ -35,6 +35,31 @@
 - **Safe by default** — every SVG is sanitized (`<script>`, `on*` handlers, external
   references stripped) whether it comes from disk or a URL.
 
+## Demo
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://raw.githubusercontent.com/PatrickLoic-dev/expo-svg-kit/master/packages/expo-svg-kit/docs/demo-spin.gif" alt="spin animation demo" width="120"/>
+      <br/><sub><code>animation="spin"</code></sub>
+    </td>
+    <td align="center">
+      <img src="https://raw.githubusercontent.com/PatrickLoic-dev/expo-svg-kit/master/packages/expo-svg-kit/docs/demo-pulse.gif" alt="pulse animation demo" width="120"/>
+      <br/><sub><code>animation="pulse"</code></sub>
+    </td>
+    <td align="center">
+      <img src="https://raw.githubusercontent.com/PatrickLoic-dev/expo-svg-kit/master/packages/expo-svg-kit/docs/demo-color.gif" alt="color animation demo" width="120"/>
+      <br/><sub><code>animation="color"</code></sub>
+    </td>
+    <td align="center">
+      <img src="https://raw.githubusercontent.com/PatrickLoic-dev/expo-svg-kit/master/packages/expo-svg-kit/docs/demo-draw.gif" alt="draw animation demo" width="120"/>
+      <br/><sub><code>animation="draw"</code></sub>
+    </td>
+  </tr>
+</table>
+
+Try it live: **[Expo Snack](#)** _(link added once published — see [Example app](#example-app))_.
+
 ## Install
 
 ```bash
